@@ -44,7 +44,7 @@ const Navigation = () => {
 								<Link to="#" className="nav-link active" href="#">
 									FAQ
 								</Link>
-								<Link to="/">{user === null && <button className={`${sharedStyle.buttons} ${style.btn_navbar}`}>LOGIN</button>}</Link>
+								<Link to="/login">{user === null && <button className={`${sharedStyle.buttons} ${style.btn_navbar}`}>LOGIN</button>}</Link>
 							</div>
 						</div>
 					</div>
