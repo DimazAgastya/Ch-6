@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import userSlice from "../store/userSlice";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
-const Login = () => {
+const Register = () => {
 	const { register, handleSubmit, formState } = useForm();
+
+	// memberitahu pesan gagal dalam regis
+
+	const [loginStatus, setloginStatus] = useState({
+		succes: false,
+		message: " ",
+	});
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	//menampilkan data  email dan password
 
@@ -22,10 +35,32 @@ const Login = () => {
 		axios
 			.post("http://localhost:4000/login", postData) // server nya ON kan dulu sebelumnya
 			.then((res) => {
-				localStorage.setItem("token", res.data.accessToken);
+				// memastikan bahwa token nya ada
+				if (typeof res.data.accessToken !== "undefined") {
+					// menyimpan di local storage
+					localStorage.setItem("carShopAccessToken", res.data.accessToken);
+
+					// menyimpan di redux store
+					const user = jwtDecode(res.data.accessToken);
+					axios.get(`http://localhost:4000/users/${user.sub}`).then((res) => {
+						dispatch(
+							userSlice.actions.addUser({
+								userData: res.data,
+							})
+						);
+						navigate("/user");
+					});
+				}
 			})
+			// unsuccess login attempt
+
 			.catch((err) => {
-				console.log(err.response);
+				//	console.log(err.response);
+
+				setloginStatus({
+					success: false,
+					message: "Sorry incorrect Password,or maybe your account is not register yet.",
+				});
 			});
 	};
 
@@ -34,13 +69,12 @@ const Login = () => {
 			<div className="row">
 				{/* image section */}
 
-				<div className="col-xl-8">
+				<div className="col-md-7">
 					<img src="/image/image 2.png" alt="" className={style.image_sign_in} />
 				</div>
-
-				<div className={`col-xl-4 `}>
+				<div className={`col-md-5 `}>
 					<form onSubmit={handleSubmit(formSubmithandler)}>
-						<h1 className={`${style.header_sign_in} ${style.right_sides} `}>Create new Account</h1>
+						<h1 className={`${style.header_sign_in} ${style.right_sides} `}>Hello, welcome back</h1>
 
 						{/* email section */}
 						<div className={style.email_container}>
@@ -57,14 +91,15 @@ const Login = () => {
 							<input type="password" placeholder="6+ karakter" name="user_password" id="user_password" className={style.box_password} required="password" {...register("user_password")} />
 							<p>{formState.errors.user_password?.type === "required"} </p>
 						</div>
+						{/*  */}
+						{!loginStatus.sucess && loginStatus.message && <p className="text-danger  m-0 ">{loginStatus.message}</p>}
 						{/* button submit section */}
 						<div className="mb-4">
-							<Link to="#">
-								<button id="btn-save-modal" type="submit" className={`${style.button_sign_in} d-grid col-11`}>
-									LOGIN
-								</button>
-							</Link>
+							<button id="btn-save-modal" type="submit" className={`${style.button_sign_in} d-grid col-11`}>
+								LOGIN
+							</button>
 						</div>
+
 						<Link to="/register">create new account</Link>
 					</form>
 				</div>
@@ -73,4 +108,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;

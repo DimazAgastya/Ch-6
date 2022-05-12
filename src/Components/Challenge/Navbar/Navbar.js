@@ -26,7 +26,7 @@ const Navigation = () => {
 							<img src="/image/binar.png" alt="binarlogo" className={style.image_navbar} />
 						</Link>
 						{/* */}
-						{user !== null && <div className="mx-4 mt-2">{user.email}</div>}
+						{user !== null && <div className="mx-4 mt-2">Hello, {user.email}</div>}
 						<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 							<span className="navbar-toggler-icon"></span>
 						</button>

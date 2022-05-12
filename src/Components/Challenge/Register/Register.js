@@ -58,7 +58,7 @@ const Register = () => {
 			.catch((err) => {
 				setRegStatus({
 					success: false,
-					message: "Sorry, your account has been register.",
+					message: "Oops, your account has been register",
 				});
 			});
 	};
@@ -91,7 +91,7 @@ const Register = () => {
 							<p>{formState.errors.user_password?.type === "required"} </p>
 						</div>
 						{/*  */}
-						{!regStatus.sucess && regStatus.message && <p className="text-danger fw-bold ">{regStatus.message}</p>}
+						{!regStatus.sucess && regStatus.message && <p className="text-danger  m-0 ">{regStatus.message}</p>}
 						{/* button submit section */}
 						<div className="mb-4">
 							<button id="btn-save-modal" type="submit" className={`${style.button_sign_in} d-grid col-11`}>
