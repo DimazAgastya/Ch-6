@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
 	name: "user",
 	initialState: {
-		data: "null",
+		data: null,
 	},
 	reducers: {
 		// dipakai saat user login dan register

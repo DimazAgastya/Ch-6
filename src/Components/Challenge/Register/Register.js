@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import style from "./register.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import userSlice from "../store/userSlice";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
@@ -15,6 +16,9 @@ const Register = () => {
 		succes: false,
 		message: " ",
 	});
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	//menampilkan data  email dan password
 
@@ -32,19 +36,29 @@ const Register = () => {
 		axios
 			.post("http://localhost:4000/register", postData) // server nya ON kan dulu sebelumnya
 			.then((res) => {
-				// memastikan bahhwa token nya ada
+				// memastikan bahwa token nya ada
 				if (typeof res.data.accessToken !== "undefined") {
 					// menyimpan di local storage
-					localStorage.setItem("carshopAccessToken", res.data.accessToken);
+					localStorage.setItem("carShopAccessToken", res.data.accessToken);
+
 					// menyimpan di redux store
 					const user = jwtDecode(res.data.accessToken);
-					axios.get(`http://localhost:4000/users/${user.sub}`).then((res) => {});
+					axios.get(`http://localhost:4000/users/${user.sub}`).then((res) => {
+						dispatch(
+							userSlice.actions.addUser({
+								userData: res.data,
+							})
+						);
+						navigate("/user");
+					});
 				}
 			})
+			// unsuccess login attempt
+
 			.catch((err) => {
 				setRegStatus({
-					succes: false,
-					message: "Oops, something went bad. please try again later",
+					success: false,
+					message: "Sorry, your account has been register.",
 				});
 			});
 	};
@@ -54,11 +68,10 @@ const Register = () => {
 			<div className="row">
 				{/* image section */}
 
-				<div className="col-xl-8">
+				<div className="col-md-7">
 					<img src="/image/image 2.png" alt="" className={style.image_sign_in} />
 				</div>
-
-				<div className={`col-xl-4 `}>
+				<div className={`col-md-5 `}>
 					<form onSubmit={handleSubmit(formSubmithandler)}>
 						<h1 className={`${style.header_sign_in} ${style.right_sides} `}>Create new Account</h1>
 
@@ -77,12 +90,15 @@ const Register = () => {
 							<input type="password" placeholder="6+ karakter" name="user_password" id="user_password" className={style.box_password} required="password" {...register("user_password")} />
 							<p>{formState.errors.user_password?.type === "required"} </p>
 						</div>
+						{/*  */}
+						{!regStatus.sucess && regStatus.message && <p className="text-danger fw-bold ">{regStatus.message}</p>}
 						{/* button submit section */}
 						<div className="mb-4">
 							<button id="btn-save-modal" type="submit" className={`${style.button_sign_in} d-grid col-11`}>
 								Register Account
 							</button>
 						</div>
+
 						<Link to="/login">already have an account</Link>
 					</form>
 				</div>
