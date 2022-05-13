@@ -8,7 +8,7 @@ const Admin = () => {
 			<div className="main_container">
 				<div className="row">
 					{/* sidebar start */}
-					<div className={`col-lg-1 col-12 ${style.sidebar_container}`}>
+					<div className={`col-lg-1 col-12 ${style.sidebar_container} `}>
 						<div id="sidebar">
 							<div className={`${style.main_nav} text-center`}>
 								<img src="/image/binar.png" alt="sidebar_logo" className={style.sidebar_logo} />
@@ -32,7 +32,7 @@ const Admin = () => {
 						</div>
 					</div>
 					{/* expand sidebar start */}
-					<div className={`${style.sidebar_expand} col-lg-2`}>
+					<div className={`${style.sidebars_expand} col-lg-2 p-0`}>
 						<div className={style.expand_logo_container}>
 							<img src="/image/binar.png" alt="" className={style.expand_logo} />
 						</div>
@@ -44,7 +44,24 @@ const Admin = () => {
 						</div>
 					</div>
 					{/* navbar start */}
-					{/* main content start */}
+					<div className="col-lg-9 col-12" id="navbar-container">
+						<nav className="navbar navbar-light bg-light">
+							<div className="container-fluid navigation">
+								<button className={style.btn_menu}>
+									<Link to="#"></Link>
+									<i className="bx bx-menu menu-navbar"></i>
+								</button>
+								<form className="d-flex">
+									<input className={`form-control me-2 searching`} type="search" placeholder="Search" aria-label="Search" />
+									<i className="bx bx-search search-icon"></i>
+									<button className={`btn ${style.btn_search}`} type="submit">
+										Search
+									</button>
+								</form>
+							</div>
+						</nav>
+						{/* main content start */}
+					</div>
 				</div>
 			</div>
 		</>

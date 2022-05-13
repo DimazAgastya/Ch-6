@@ -59,3 +59,12 @@ body {
 	background-color: rgb(68, 55, 166);
 	border-radius: 20px;
 }
+
+.google_login {
+	background-color: #a7b7fa;
+	color: #112ca5;
+	border: none;
+	padding: 8px 12px;
+	border-radius: 5px;
+	margin-top: 10px;
+}

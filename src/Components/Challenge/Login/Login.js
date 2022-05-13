@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import userSlice from "../store/userSlice";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { GoogleLogin } from "react-google-login";
 
 const Register = () => {
 	const { register, handleSubmit, formState } = useForm();
@@ -68,6 +69,14 @@ const Register = () => {
 			});
 	};
 
+	const googleSuccessLogin = (response) => {
+		console.log(response);
+	};
+
+	const googleFailLogin = (err) => {
+		console.log(err);
+	};
+
 	return (
 		<>
 			<div className="row">
@@ -79,7 +88,6 @@ const Register = () => {
 				<div className={`col-md-5 `}>
 					<form onSubmit={handleSubmit(formSubmithandler)}>
 						<h1 className={`${style.header_sign_in} ${style.right_sides} `}>Hello, welcome back</h1>
-
 						{/* email section */}
 						<div className={style.email_container}>
 							<div className="email">
@@ -88,7 +96,6 @@ const Register = () => {
 							<input type="email" placeholder="Contoh: johndee@gmail.com" name="email" id="email" required className={style.box_email} {...register("user_email")} />
 							<p>{formState.errors.user_email?.type === "required"}</p>
 						</div>
-
 						{/* password section */}
 						<div className={style.email_container}>
 							<label htmlFor="user_password">Password</label>
@@ -103,8 +110,22 @@ const Register = () => {
 								LOGIN
 							</button>
 						</div>
-
 						<Link to="/register">create new account</Link>
+						<div>
+							<GoogleLogin
+								clientId="243585186073-p2so1re6k76ij2b3vihpo080cc2asvh2.apps.googleusercontent.com"
+								render={(renderProps) => (
+									<button onClick={renderProps.onClick} disabled={renderProps.disabled} className={style.google_login}>
+										Login with Google
+									</button>
+								)}
+								buttonText="Login"
+								onSuccess={googleSuccessLogin}
+								onFailure={googleFailLogin}
+								cookiePolicy={"single_host_origin"}
+								{...navigate("/user")}
+							/>
+						</div>
 					</form>
 				</div>
 			</div>

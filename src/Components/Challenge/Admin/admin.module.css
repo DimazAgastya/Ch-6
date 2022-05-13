@@ -120,6 +120,11 @@ body {
 	padding: 0;
 }
 
+.sidebars_expand {
+	margin: 0;
+	padding: 0;
+}
+
 .expand_logo {
 	width: 55%;
 	height: 30%;
