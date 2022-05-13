@@ -8,7 +8,7 @@ const AdminRoute = () => {
 	// jika user  login sebagai admin maka
 	if (user.isAdmin === true) {
 		return <Navigate to="/admin" />;
-	} // jika bukan admin maka akan muncul
+	} // jika bukan admin maka akan dikembalikan
 	else {
 		return <Outlet />;
 	}

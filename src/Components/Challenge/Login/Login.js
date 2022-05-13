@@ -48,7 +48,11 @@ const Register = () => {
 								userData: res.data,
 							})
 						);
-						navigate("/user");
+						if (res.data.isAdmin) {
+							navigate("/admin");
+						} else {
+							navigate("/user");
+						}
 					});
 				}
 			})
